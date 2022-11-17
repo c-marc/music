@@ -14,12 +14,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, echo = FALSE}
 library(music)
 library(dplyr)
 library(tidyr)
 library(purrr)
 ```
+
+
+This demonstrates typical pipes allowed by the package:
+
+- start with a block of data;
+- add complementary column;
+- transform to a more commonly used coordinate system ("12_TET" = 12 tones equal temperament).
+
+Additional steps can be inserted or appended.
 
 
 ## Start with some roles
@@ -32,26 +41,46 @@ start_with_some_roles(c("m3", "P5", "m7")) |>
 
 ## Start with some notes
 
+```{r}
+start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
+  add_roles() |>
+  as_12_TET()
+```
+
+So this is a rootless Dm7.
+
+
 ### Inversion of a chord
 
-```{r}
-start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
-  add_roles() |>
-  as_12_TET() |>
-  set_first(rank = 2) |>
-  dplyr::mutate(interval = c(0, diff(idx)))
-```
-Compare:
+After transforming, we ask to start on the second note.
 
 ```{r}
 start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
   add_roles() |>
   as_12_TET() |>
   set_first(rank = 2) |>
-  dplyr::rename("role_x" = "role") |>
-  set_lock(to = FALSE) |>
-  set_zero("P5", from = "role_x") |> 
+  mutate(interval = c(0, diff(idx)))
+```
+Note that this is still the same chord (with the same role).
+
+Someone who's unfamiliar with chords and intervals might wonder what kind of "A" chord that could also be. The same 2 lines pipe as above could be run. Here we demonstrate how to go on from the previous result, after already made transformations. This requires to:
+
+- unlock the `xtibble` object to use `set_zero()` and `set_unit_*()` on our index;
+- transform back to an index ordered as fifths;
+- set zero on "P5" from the "role" column (we can also equivalently set zero on "A" from "note");
+- save the roles in another column (before adding new roles);
+- add roles based on that new zero reference.
+
+```{r}
+start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
+  add_roles() |>
+  as_12_TET() |>
+  set_first(rank = 2) |>
+  # new steps
+  set_lock(to = FALSE, silently = TRUE) |>
   set_unit_to_fifths() |>
+  set_zero("P5", from = "role_x") |> 
+  rename("role_x" = "role") |>
   add_roles() |>
   as_12_TET()
 ```
@@ -59,38 +88,38 @@ start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
 
 ### Advanced
 
-What are F, A and C when each is successively considered the root?
+We can explore similar questions by leveraging more programming skills. For example with `purrr` mapping functions and `tidyr` pivoting.
+
+What are C, F and A when each is successively considered the root?
 
 ```{r}
-demo <- c("F", "A", "C") |>
+demo <- c("C", "F", "A") |>
   {function(x){
-    purrr::map_df(x, ~tibble::tibble(
+    map_df(x, ~tibble(
       root = .x,
       data = start_with_some_notes(x, root_note = .x) |> add_roles() |> list()
     ))
   }}()
 
 demo |> 
-  tidyr::unnest(data) |> 
-  dplyr::select(-idx) |>
-  tidyr::pivot_wider(names_from = root, names_prefix = "root:", values_from = role)
+  unnest(data) |> 
+  select(-idx) |>
+  pivot_wider(names_from = root, names_prefix = "root:", values_from = role)
 ```
 
 ## Start with mode
 
-Heptatonic scales:
+See dedicated articles for 7 and 5 modes for more usage.
+
+
+### Heptatonic scales:
 
 ```{r}
 show_mode(mode_size = 7)
 ```
 
-Pentatonic scales:
 
-```{r}
-show_mode(mode_size = 5)
-```
-
-Dorian:
+Dorian mode:
 
 ```{r}
 start_with_mode(mode_size = 7, degree = 2) |>
@@ -98,8 +127,45 @@ start_with_mode(mode_size = 7, degree = 2) |>
   as_12_TET()
 ```
 
+### Pentatonic scales:
+
+```{r}
+show_mode(mode_size = 5)
+```
+
 
 ## Alter roles
+
+### Find other minor scales
+
+There are several [minor scales](https://en.wikipedia.org/wiki/Minor_scale).
+
+The harmonic minor scale is natural minor (aeolian) with M7 (raised m7):
+
+```{r}
+start_with_mode(degree = 6) |>
+  add_roles() |>
+  augment("m7")
+```
+
+The ascending melodic minor is:
+
+- natural minor with M7 and M6 (harmonic minor with M6):
+
+```{r}
+start_with_mode(degree = 6) |>
+  add_roles() |>
+  augment(c("m7", "m6"))
+```
+
+- or equivalently dorian mode with M7:
+
+```{r}
+start_with_mode(degree = 2) |>
+  add_roles() |>
+  augment("m7")
+```
+
 
 ### Blue notes:
 
@@ -144,31 +210,4 @@ start_with_mode(mode_size = 7, degree = 1) |>
   as_12_TET()
 ```
 
-### Find other minor scales
-
-There several [minor scales](https://en.wikipedia.org/wiki/Minor_scale).
-
-The harmonic minor scale is natural minor (aeolian) with M7 (raised m7):
-
-```{r}
-start_with_mode(degree = 6) |>
-  add_roles() |>
-  augment("m7")
-```
-
-The ascending melodic minor is:
-
-- natural minor with M7 and M6 (harmonic minor with M6)
-- or dorian with M7
-
-```{r}
-start_with_mode(degree = 6) |>
-  add_roles() |>
-  augment(c("m7", "m6")) |>
-  print()
-
-start_with_mode(degree = 2) |>
-  add_roles() |>
-  augment("m7")
-```
 

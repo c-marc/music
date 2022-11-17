@@ -22,9 +22,33 @@ library(purrr)
 ```
 
 
-Some interersting reading:
+More background:
 
-- <https://en.wikipedia.org/wiki/Pentatonic_scale>
+- [Pentatonic scale](https://en.wikipedia.org/wiki/Pentatonic_scale)
+
+Interesting things:
+
+- No leading-tone, no subtonic (and no tritonic):
+  - 2 is either 2M or 3m
+  - 3 is either 3M or P4
+  - 4 is either P5 or m6
+  - 5 is either M6 or m7
+
+
+- F maj, C maj, and G maj are the 3 white-keys transpositions
+
+
+## TODO
+
+Show the five sets of roles.
+
+Show the natural triads which are only 3M and P4 stacks:
+
+- 4-5 (degree 1 major): P1-M3-M6 : equivalently a minor triad inversion 3-4
+- 5-4 (degree 5 blues major): P1-P4-M6 : equivalently a major triad inversion 4-3
+- 5-5 (degrees 2, 3, 6): P1-P4-m7 : suspended 
+
+Maybe with the circle (p5, u2) which has intervals 4-5-5-5(-5)...
 
 
 ## Pentatonic as subsets of 7-notes modes
@@ -34,15 +58,23 @@ demo <- match_modes()
 demo
 ```
 
-`delta` is just a shift on the circle of fifths.
+`delta` is just the shift on the circle of fifths.
 
 A more insightful reasoning is to understand what the subset mean:
 
-- major pentatonic is (P1-P5)-M2-M6-M3; it matches the 3 modes with a M3
-- major blues is (P4-P1-P5)-M2-M6
-- suspended is m7-(P4-P1-P5)-M2
-- minor pentatonic is m3-m7-(P4-P1-P5): it matches the 3 minor modes with P5
-- minor blues is m6-m3-m7-(P4-P1): it matches the 3 modes with a m6
+- major pentatonic is (P1-P5)-M2-M6-M3:
+    - no 4th and 7th
+    - it matches the 3 modes with a M3
+- major blues is (P4-P1-P5)-M2-M6:
+    - no 3rd and 7th
+- suspended is m7-(P4-P1-P5)-M2:
+    - no 3rd and 6th
+- minor pentatonic is m3-m7-(P4-P1-P5):
+    - no 2nd and 6th
+    - it matches the 3 minor modes with P5
+- minor blues is m6-m3-m7-(P4-P1): 
+  - no 2nd and 5th
+  - it matches the 3 modes with a m6
 
 
 Then it's a matter of presentation:
@@ -59,7 +91,7 @@ demo |>
 ```
 
 
-## Particular pentonic
+## Particular pentonic scales
 
 ### Guitar tuning
 
@@ -75,4 +107,5 @@ This is G-D-A-E-B:
 
 ### Black keys (piano)
 
-F#/Gb major pentatonic.
+- F#/Gb major pentatonic
+- Eb minor pentatonic

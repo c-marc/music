@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of music has two sides:
+The goal of `music` is double:
 
 - explore music theory through opinionated declarative functions;
 - explore R programming and demonstrate some development skills.
@@ -45,12 +45,12 @@ pak::pkg_install("c-marc/music")
 4. Show the first _inversion_ of that chord (starting on its second note).
 5. Compute intervals.
 
-```{r example}
+```{r example, echo = FALSE}
 library(music)
 
 start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
   add_roles() |>
-  set_unit_to_1() |>
+  as_12_TET() |>
   set_first(rank = 2) |>
   dplyr::mutate(intervals = c(0, diff(idx)))
 ```

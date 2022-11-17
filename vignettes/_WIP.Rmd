@@ -122,3 +122,24 @@ seven_chord <- function(type){
 }
 ```
 
+
+## Intervals
+
+```{r}
+funky <- function(x){
+  d <- diff(x)
+  c(d, 12 - sum(d)) %% 12
+}
+```
+
+```{r}
+start_with_mode() |> 
+  add_roles() |>
+  as_12_TET() |> 
+  dplyr::mutate(idx7 = index(0:6, 7L, 1L)) |> 
+  xtibble(idx_name = "idx7", lock = FALSE) |> 
+  set_unit(2L) |> 
+  dplyr::arrange(idx7) |> 
+  dplyr::mutate(z = funky(as.integer(idx)))
+```
+

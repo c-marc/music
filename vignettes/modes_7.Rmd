@@ -29,49 +29,49 @@ Add roles to each mode:
 
 ```{r}
 demo <- show_mode(mode_size = 7) |>
-  dplyr::rowwise() |>
-  dplyr::mutate(data = start_with_mode(mode_size = 7, degree = degree) |> 
-                  add_roles() |>
-                  as_12_TET() |>
-                  list())
+  rowwise() |>
+  mutate(data = start_with_mode(mode_size = 7, degree = degree) |>
+           add_roles() |>
+           as_12_TET() |>
+           list())
 ```
 
 Pivot wider with roles:
 
 ```{r}
 out <- demo |>
-  tidyr::unnest(data) |>
-  dplyr::mutate(idx = as.integer(idx)) |>
-  tidyr::pivot_wider(names_from = idx, values_from = role) |>
-  dplyr::select("degree", "name", as.character(0:11))
+  unnest(data) |>
+  mutate(idx = as.integer(idx)) |>
+  pivot_wider(names_from = idx, values_from = role) |>
+  select("degree", "name", as.character(0:11))
 
 out
 ```
 
-Or order modes by builiding order:
+Or order modes by building order:
 
 ```{r}
 tibble(degree = c(4, 1, 5, 2, 6, 3, 7)) |>
   left_join(out, by = "degree")
 ```
 
-To show how this simply aligns in some appropriate coordinates:
+To show how this simply aligns in some appropriate coordinates, we just catch results before transforming in 12-TET:
 
 ```{r}
 demo2 <- get_mode(mode_size = 7) |>
-  dplyr::rename(rank = idx) |>
-  dplyr::rowwise() |>
-  dplyr::mutate(data = start_with_mode(mode_size = 7, degree = degree) |> 
-                  add_roles() |>
-                  list())
+  rename(rank = idx) |>
+  rowwise() |>
+  mutate(data = start_with_mode(mode_size = 7, degree = degree) |> 
+              add_roles() |>
+              list())
 ```
 
 ```{r}
 out <- demo2 |>
-  tidyr::unnest(data) |>
-  dplyr::mutate(idx = as.integer(idx)) |>
-  tidyr::pivot_wider(names_from = idx, values_from = role) |>
-  dplyr::select("degree", "name", paste0(-6:6))
+  unnest(data) |>
+  mutate(idx = as.integer(idx)) |>
+  pivot_wider(names_from = idx, values_from = role) |>
+  select("degree", "name", paste0(-6:6))
 
 out
 ```
@@ -81,9 +81,17 @@ out
 
 ### Direct slicing
 
+We start with values of an index:
+
+- sequence of 7 consecutive values on the circle of fifths.
+- starting on -1 for the ionian mode
+- here we directly set the index to a 12-TET
+- the important parameter is to set the unit so that it represents fifths for the specified period (`7`; on can use the helper `fifth(period = 12L)`)
+
+
 ```{r}
 ionian <- -1
-start_with_some_values((0:6) + ionian, period = 31L, unit = 18L) |>
+start_with_some_values((0:6) + ionian, period = 12L, unit = 7L) |>
   add_roles()
 ```
 
@@ -103,11 +111,12 @@ xx <- lydian |>
   accumulate(~c(.x, .y))
 xx
 ```
-```{r, echo = FALSE}
+```{r message=FALSE}
 degree <- lydian |> filter(role != "A4") |> pull("role") |> str_sub(2L)
 res <- tibble(degree = degree,
               data = xx |> map(~lydian |> diminish(.x) |> as_12_TET()))
 ```
+
 ```{r}
 res |> filter(degree == 5) |> pull("data")
 ```
@@ -126,10 +135,10 @@ demo <- start_with_mode() |>
 
 # New index 2/7
 demo |>  
-  dplyr::mutate(idx7 = index(dplyr::row_number() - 1, period = 7L, unit = 1L)) |> 
+  mutate(idx7 = index(dplyr::row_number() - 1, period = 7L, unit = 1L)) |> 
   xtibble(idx_name = "idx7", lock = FALSE) |>
   set_unit(to = 2L) |> 
-  dplyr::arrange(idx7)                                               
+  arrange(idx7)                                               
 ```
 
 This works with any scale of 7 notes. Let's to this for the 7th degree of the melodic minor scale:
@@ -166,7 +175,7 @@ funky <- function(x, degree){
 ```
 
 ```{r}
-mm <- get_data("melodic_minor") |> set_lock(to = FALSE)
+mm <- get_data("melodic_minor") |> set_lock(to = FALSE, silently = TRUE)
 
 demo <- mm |>
   select(degree) |>
