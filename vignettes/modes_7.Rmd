@@ -1,0 +1,183 @@
+---
+title: "modes_7"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{modes_7}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo = FALSE}
+library(music)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(stringr)
+```
+
+
+## Explore all 7 modes at once
+
+Add roles to each mode:
+
+```{r}
+demo <- show_mode(mode_size = 7) |>
+  dplyr::rowwise() |>
+  dplyr::mutate(data = start_with_mode(mode_size = 7, degree = degree) |> 
+                  add_roles() |>
+                  as_12_TET() |>
+                  list())
+```
+
+Pivot wider with roles:
+
+```{r}
+out <- demo |>
+  tidyr::unnest(data) |>
+  dplyr::mutate(idx = as.integer(idx)) |>
+  tidyr::pivot_wider(names_from = idx, values_from = role) |>
+  dplyr::select("degree", "name", as.character(0:11))
+
+out
+```
+
+Or order modes by builiding order:
+
+```{r}
+tibble(degree = c(4, 1, 5, 2, 6, 3, 7)) |>
+  left_join(out, by = "degree")
+```
+
+To show how this simply aligns in some appropriate coordinates:
+
+```{r}
+demo2 <- get_mode(mode_size = 7) |>
+  dplyr::rename(rank = idx) |>
+  dplyr::rowwise() |>
+  dplyr::mutate(data = start_with_mode(mode_size = 7, degree = degree) |> 
+                  add_roles() |>
+                  list())
+```
+
+```{r}
+out <- demo2 |>
+  tidyr::unnest(data) |>
+  dplyr::mutate(idx = as.integer(idx)) |>
+  tidyr::pivot_wider(names_from = idx, values_from = role) |>
+  dplyr::select("degree", "name", paste0(-6:6))
+
+out
+```
+
+
+## Other ways to construct or understand modes
+
+### Direct slicing
+
+```{r}
+ionian <- -1
+start_with_some_values((0:6) + ionian, period = 31L, unit = 18L) |>
+  add_roles()
+```
+
+### Sequential building
+
+Here we demonstrate how 7-modes can be seen as cumulative alterations.
+
+```{r}
+# Start on lydian mode (fully augmented)
+lydian <- start_with_mode(degree = 4) |> add_roles()
+
+# We need to sequentially diminish roles
+xx <- lydian |>
+  filter(role != "P1") |> 
+  pull("role") |> 
+  rev() |> 
+  accumulate(~c(.x, .y))
+xx
+```
+```{r, echo = FALSE}
+degree <- lydian |> filter(role != "A4") |> pull("role") |> str_sub(2L)
+res <- tibble(degree = degree,
+              data = xx |> map(~lydian |> diminish(.x) |> as_12_TET()))
+```
+```{r}
+res |> filter(degree == 5) |> pull("data")
+```
+
+
+
+## Use transformations to get 3rd, 5th and 7th, 9th, 11th and 14th
+
+We can use indexing features to create a new index with period 7, and walk over it by steps of 2.
+
+```{r}
+# Ionian 1/12
+demo <- start_with_mode() |>
+  add_roles() |>
+  as_12_TET()
+
+# New index 2/7
+demo |>  
+  dplyr::mutate(idx7 = index(dplyr::row_number() - 1, period = 7L, unit = 1L)) |> 
+  xtibble(idx_name = "idx7", lock = FALSE) |>
+  set_unit(to = 2L) |> 
+  dplyr::arrange(idx7)                                               
+```
+
+This works with any scale of 7 notes. Let's to this for the 7th degree of the melodic minor scale:
+
+```{r}
+demo <- get_data("melodic_minor") |>
+  set_lock(to = FALSE) |>
+  set_zero(on = 7, from = "degree") |>
+  add_roles() |>
+  as_12_TET()
+
+demo |>
+  mutate(idx7 = index(row_number() - 1, period = 7L, unit = 1L)) |> 
+  xtibble(idx_name = "idx7", lock = FALSE) |> 
+  set_unit(to = 2L) |> 
+  arrange(idx7)                                               
+```
+
+
+And this can be scripted for an exhaustive demonstration:
+
+```{r}
+funky <- function(x, degree){
+  x |>
+    set_zero(on = degree, from = "degree") |>
+    add_roles() |>
+    as_12_TET() |>
+    mutate(idx7 = index(row_number() - 1, period = 7L, unit = 1L)) |> 
+    xtibble(idx_name = "idx7", lock = FALSE) |> 
+    set_unit(to = 2L) |>
+    select("idx7", "role") |>
+    arrange(idx7)  
+}
+```
+
+```{r}
+mm <- get_data("melodic_minor") |> set_lock(to = FALSE)
+
+demo <- mm |>
+  select(degree) |>
+  rowwise() |>
+  mutate(data = funky(x = mm, degree = degree) |> list())
+```
+Unnest and pivot:
+
+```{r}
+demo |>
+  unnest(data) |>
+  mutate(idx7 = as.integer(idx7)) |>
+  pivot_wider(names_from = idx7, values_from = role)
+```

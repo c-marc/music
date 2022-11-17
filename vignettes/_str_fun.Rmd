@@ -1,0 +1,87 @@
+---
+title: "str_fun"
+output: rmarkdown::html_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(music)
+library(stringr)
+```
+
+
+### With string manipulation
+
+Major penta is diatonic minus 4th and 7th:
+
+```{r}
+c("CDEFGAB") %>% str_replace_all("[FB]","")
+```
+
+Remove 3rd and 7th, duplicate and pick 5 notes starting on F:
+
+```{r}
+c("CDEFGAB") %>% 
+  str_replace_all("[EB]","") %>%
+  str_dup(2) %>%
+  str_extract("F.{4}") 
+```
+Same idea:
+
+```{r}
+c("CDEFGAB") %>% 
+  str_replace_all("[CF]","") %>%
+  str_dup(2) %>%
+  str_extract("G.{4}")
+```
+
+... but dealing with # and b is harder...
+
+
+```{r}
+x <-  letters[1:7] %>% str_flatten()
+str_replace(x,"(.{5})(.*)","\\2\\1")
+```
+```{r}
+str_replace(x,"(.{2})(.*)","\\2\\1")
+```
+
+```{r}
+str_replace("CDEFGAB","(.)(.)(.)(.)(.)(.)(.)", "\\1\\5\\2")
+```
+
+```{r}
+str_replace(
+  "CC#DD#EFF#GG#AA#B",
+  str_dup("(.[#b]?)",12), "\\1\\8\\3")
+```
+
+```{r}
+wild <- str_c("\\",((0:11)*7)%%12+1) %>% str_flatten()
+wild
+```
+
+```{r}
+str_replace(
+  "CC#DD#EFF#GG#AA#B",
+  str_dup("(.[#b]?)",12), wild)
+```
+
+An idea could be to use a trick, for example lowercase for bemols:
+
+And `_` for missing: 
+
+- 12 `CdDeEFgGaAbB`
+- Cm triad:`C---e----G----`
+- C Maj: `C-D-EF-G-A-B`
+- D dorian: `D-EF-G-A-BC-`
+- Circle of fifths: `CGDEABgdeabF`
+- C Maj: `CGDEAB-----F`
+- Penta C Maj: `CGDEA------`
+- Penta G Blues Maj: `GDEA------C`

@@ -1,0 +1,78 @@
+---
+title: "modes_5"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{modes_5}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo = FALSE}
+library(music)
+library(dplyr)
+library(tidyr)
+library(purrr)
+```
+
+
+Some interersting reading:
+
+- <https://en.wikipedia.org/wiki/Pentatonic_scale>
+
+
+## Pentatonic as subsets of 7-notes modes
+
+```{r}
+demo <- match_modes()
+demo
+```
+
+`delta` is just a shift on the circle of fifths.
+
+A more insightful reasoning is to understand what the subset mean:
+
+- major pentatonic is (P1-P5)-M2-M6-M3; it matches the 3 modes with a M3
+- major blues is (P4-P1-P5)-M2-M6
+- suspended is m7-(P4-P1-P5)-M2
+- minor pentatonic is m3-m7-(P4-P1-P5): it matches the 3 minor modes with P5
+- minor blues is m6-m3-m7-(P4-P1): it matches the 3 modes with a m6
+
+
+Then it's a matter of presentation:
+
+```{r}
+demo |>
+  select(delta, name_5, degree_7, name_7) |>
+  pivot_wider(names_from = delta, values_from = name_5)
+```
+```{r}
+demo |>
+  select(delta, name_5, name_7) |>
+  pivot_wider(names_from = delta, values_from = name_7)
+```
+
+
+## Particular pentonic
+
+### Guitar tuning
+
+E-A-D-G-D-E
+
+This is G-D-A-E-B:
+
+- G major
+- D blues major
+- A sus
+- E minor
+- B blues minor
+
+### Black keys (piano)
+
+F#/Gb major pentatonic.

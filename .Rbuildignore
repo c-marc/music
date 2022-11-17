@@ -1,0 +1,11 @@
+^music\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^vignettes/str_fun\.Rmd$
+^LICENSE\.md$
+^README\.Rmd$
+^dev_history\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/_WIP\.Rmd$

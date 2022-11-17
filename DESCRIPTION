@@ -1,0 +1,38 @@
+Package: music
+Title: Explore Music Theory With Opinionated Functions
+Version: 0.0.0.9000
+Authors@R: 
+    person("Marc", "Carpentier", , "mcar176@gmail.com", role = c("aut", "cre"))
+Description: A group of functions for exploring music theory, trough
+    transformations of elementay blocks. Technically, the package aims at
+    experimenting and demonstrating various tools and guidelines.
+    This includes OOP (S3, with vctrs and tibble subclassing), strong control
+    of user input and types (rlang), pure fonctionnal approach. Efforts are made 
+    on providing verbs and logic to use intuitively in a tidyverse way, and on
+    throwing informative and nice errors (with the cli package). 
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Imports: 
+    cli,
+    dplyr,
+    glue,
+    magrittr,
+    purrr,
+    rlang,
+    stringr,
+    tibble,
+    tidyr,
+    tidyselect,
+    vctrs,
+    zeallot
+Config/testthat/edition: 3
+Depends: 
+    R (>= 4.1)
+LazyData: true

@@ -1,0 +1,174 @@
+---
+title: "music"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{music}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(music)
+library(dplyr)
+library(tidyr)
+library(purrr)
+```
+
+
+## Start with some roles
+
+```{r}
+start_with_some_roles(c("m3", "P5", "m7")) |>
+  add_notes(root_note = "D") |>
+  as_12_TET()
+```
+
+## Start with some notes
+
+### Inversion of a chord
+
+```{r}
+start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
+  add_roles() |>
+  as_12_TET() |>
+  set_first(rank = 2) |>
+  dplyr::mutate(interval = c(0, diff(idx)))
+```
+Compare:
+
+```{r}
+start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
+  add_roles() |>
+  as_12_TET() |>
+  set_first(rank = 2) |>
+  dplyr::rename("role_x" = "role") |>
+  set_lock(to = FALSE) |>
+  set_zero("P5", from = "role_x") |> 
+  set_unit_to_fifths() |>
+  add_roles() |>
+  as_12_TET()
+```
+
+
+### Advanced
+
+What are F, A and C when each is successively considered the root?
+
+```{r}
+demo <- c("F", "A", "C") |>
+  {function(x){
+    purrr::map_df(x, ~tibble::tibble(
+      root = .x,
+      data = start_with_some_notes(x, root_note = .x) |> add_roles() |> list()
+    ))
+  }}()
+
+demo |> 
+  tidyr::unnest(data) |> 
+  dplyr::select(-idx) |>
+  tidyr::pivot_wider(names_from = root, names_prefix = "root:", values_from = role)
+```
+
+## Start with mode
+
+Heptatonic scales:
+
+```{r}
+show_mode(mode_size = 7)
+```
+
+Pentatonic scales:
+
+```{r}
+show_mode(mode_size = 5)
+```
+
+Dorian:
+
+```{r}
+start_with_mode(mode_size = 7, degree = 2) |>
+  add_roles() |>
+  as_12_TET()
+```
+
+
+## Alter roles
+
+### Blue notes:
+
+Pentatonic minor with _d5_. Here we show how to add the role:
+
+```{r}
+start_with_mode(mode_size = 5, degree = 6) |>
+  add_roles() |>
+  pull("role") |>
+  {\(x) c(x, "d5")}() |>
+  start_with_some_roles() |>
+  add_notes(root_note = "C") |>
+  as_12_TET()
+```
+
+Blue notes on major scales: _m3_ and _m7_...
+
+Some examples could be:
+
+- major pentatonic with _m3_:
+
+```{r}
+start_with_mode(mode_size = 5, degree = 1) |>
+  add_roles() |>
+  pull("role") |>
+  {\(x) c(x, "m3")}() |>
+  start_with_some_roles() |>
+  add_notes(root_note = "C") |>
+  as_12_TET()
+```
+
+- ionian scale with alteration:
+  - diminished 7th: myxolidian (m7) 
+  - diminished 7th and 3d: dorian (m3, m7)
+  - diminished 3d: ascending melodic minor (m3)
+
+```{r}
+start_with_mode(mode_size = 7, degree = 1) |>
+  add_roles() |>
+  diminish("M7") |>
+  add_notes(root_note = "C") |>
+  as_12_TET()
+```
+
+### Find other minor scales
+
+There several [minor scales](https://en.wikipedia.org/wiki/Minor_scale).
+
+The harmonic minor scale is natural minor (aeolian) with M7 (raised m7):
+
+```{r}
+start_with_mode(degree = 6) |>
+  add_roles() |>
+  augment("m7")
+```
+
+The ascending melodic minor is:
+
+- natural minor with M7 and M6 (harmonic minor with M6)
+- or dorian with M7
+
+```{r}
+start_with_mode(degree = 6) |>
+  add_roles() |>
+  augment(c("m7", "m6")) |>
+  print()
+
+start_with_mode(degree = 2) |>
+  add_roles() |>
+  augment("m7")
+```
+

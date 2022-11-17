@@ -1,0 +1,53 @@
+url: ~
+template:
+  bootstrap: 5
+reference:
+- title: "Start with something"
+  desc: >
+    Functions for easy starting. Typically as an entry point in a pipe sequence.
+  contents:
+  - starts_with("start_with_")
+- title: "Add information"
+  desc: "Functions for adding columns."
+  contents:
+  - starts_with("add_")
+- title: "Transform"
+  desc: "Transform the index period and/or unit."
+  contents:
+  - as_12_TET
+  - set_unit_to_fifths
+  - set_unit_to_1
+  - set_unit
+  - set_period
+  - set_zero
+  - set_first
+- title: "S3 classes"
+  desc: "Objects."
+  contents:
+  - index
+  - xtibble
+  - is_locked
+  - set_lock
+- title: "Data"
+  desc: "More data to look at or start with."
+  contents:
+  - get_roles
+  - collapse_roles
+  - get_notes
+  - get_mode
+  - show_mode
+  - get_data
+  - create_aeolian_A
+  - create_chromatic
+  - create_notes
+- title: "Other"
+  desc: "Still ungrouped"
+  contents:
+  - shift_role
+  - match_modes
+  - periodic_slice
+  - example
+- title: "Superseded or discussed"
+  desc: "Might not be necessary anymore."
+  contents:
+  - break_point

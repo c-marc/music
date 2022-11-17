@@ -1,0 +1,8 @@
+idx,degree,name
+-1,4,lydian
+0,1,ionian
+1,5,myxolydian
+2,2,dorian
+3,6,aeolian
+4,3,phrygian
+5,7,locrian
