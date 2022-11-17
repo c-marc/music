@@ -36,5 +36,6 @@ Config/testthat/edition: 3
 Depends: 
     R (>= 4.1)
 LazyData: true
-URL: https://github.com/c-marc/music
+URL: https://github.com/c-marc/music,
+    https://c-marc.github.io/music/
 BugReports: https://github.com/c-marc/music/issues

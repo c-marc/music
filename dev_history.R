@@ -31,3 +31,4 @@ use_build_ignore("vignettes/_WIP.Rmd")
 
 use_news_md()
 use_pkgdown()
+use_pkgdown_github_pages()
