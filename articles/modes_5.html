@@ -107,10 +107,37 @@
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre>
-<p>Some interersting reading:</p>
+<p>More background:</p>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Pentatonic_scale" class="external-link uri">https://en.wikipedia.org/wiki/Pentatonic_scale</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Pentatonic_scale" class="external-link">Pentatonic
+scale</a></li>
 </ul>
+<p>Interesting things:</p>
+<ul>
+<li>No leading-tone, no subtonic (and no tritonic):
+<ul>
+<li>2 is either 2M or 3m</li>
+<li>3 is either 3M or P4</li>
+<li>4 is either P5 or m6</li>
+<li>5 is either M6 or m7</li>
+</ul>
+</li>
+<li>F maj, C maj, and G maj are the 3 white-keys transpositions</li>
+</ul>
+<div class="section level2">
+<h2 id="todo">TODO<a class="anchor" aria-label="anchor" href="#todo"></a>
+</h2>
+<p>Show the five sets of roles.</p>
+<p>Show the natural triads which are only 3M and P4 stacks:</p>
+<ul>
+<li>4-5 (degree 1 major): P1-M3-M6 : equivalently a minor triad
+inversion 3-4</li>
+<li>5-4 (degree 5 blues major): P1-P4-M6 : equivalently a major triad
+inversion 4-3</li>
+<li>5-5 (degrees 2, 3, 6): P1-P4-m7 : suspended</li>
+</ul>
+<p>Maybe with the circle (p5, u2) which has intervals 4-5-5-5(-5)…</p>
+</div>
 <div class="section level2">
 <h2 id="pentatonic-as-subsets-of-7-notes-modes">Pentatonic as subsets of 7-notes modes<a class="anchor" aria-label="anchor" href="#pentatonic-as-subsets-of-7-notes-modes"></a>
 </h2>
@@ -135,18 +162,38 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span>    -<span style="color: #BB0000;">1</span>     3        3 minor blues        6 aeolian   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span>     0     4        3 minor blues        3 phrygian  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span>     1     5        3 minor blues        7 locrian</span></span></code></pre></div>
-<p><code>delta</code> is just a shift on the circle of fifths.</p>
+<p><code>delta</code> is just the shift on the circle of fifths.</p>
 <p>A more insightful reasoning is to understand what the subset
 mean:</p>
 <ul>
-<li>major pentatonic is (P1-P5)-M2-M6-M3; it matches the 3 modes with a
-M3</li>
-<li>major blues is (P4-P1-P5)-M2-M6</li>
-<li>suspended is m7-(P4-P1-P5)-M2</li>
-<li>minor pentatonic is m3-m7-(P4-P1-P5): it matches the 3 minor modes
-with P5</li>
-<li>minor blues is m6-m3-m7-(P4-P1): it matches the 3 modes with a
-m6</li>
+<li>major pentatonic is (P1-P5)-M2-M6-M3:
+<ul>
+<li>no 4th and 7th</li>
+<li>it matches the 3 modes with a M3</li>
+</ul>
+</li>
+<li>major blues is (P4-P1-P5)-M2-M6:
+<ul>
+<li>no 3rd and 7th</li>
+</ul>
+</li>
+<li>suspended is m7-(P4-P1-P5)-M2:
+<ul>
+<li>no 3rd and 6th</li>
+</ul>
+</li>
+<li>minor pentatonic is m3-m7-(P4-P1-P5):
+<ul>
+<li>no 2nd and 6th</li>
+<li>it matches the 3 minor modes with P5</li>
+</ul>
+</li>
+<li>minor blues is m6-m3-m7-(P4-P1):
+<ul>
+<li>no 2nd and 5th</li>
+<li>it matches the 3 modes with a m6</li>
+</ul>
+</li>
 </ul>
 <p>Then it’s a matter of presentation:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -177,7 +224,7 @@ m6</li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> minor blues aeolian    phrygian   locrian</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="particular-pentonic">Particular pentonic<a class="anchor" aria-label="anchor" href="#particular-pentonic"></a>
+<h2 id="particular-pentonic-scales">Particular pentonic scales<a class="anchor" aria-label="anchor" href="#particular-pentonic-scales"></a>
 </h2>
 <div class="section level3">
 <h3 id="guitar-tuning">Guitar tuning<a class="anchor" aria-label="anchor" href="#guitar-tuning"></a>
@@ -195,7 +242,10 @@ m6</li>
 <div class="section level3">
 <h3 id="black-keys-piano">Black keys (piano)<a class="anchor" aria-label="anchor" href="#black-keys-piano"></a>
 </h3>
-<p>F#/Gb major pentatonic.</p>
+<ul>
+<li>F#/Gb major pentatonic</li>
+<li>Eb minor pentatonic</li>
+</ul>
 </div>
 </div>
   </div>

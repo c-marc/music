@@ -113,18 +113,18 @@
 <p>Add roles to each mode:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/show_mode.html">show_mode</a></span><span class="op">(</span>mode_size <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html" class="external-link">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/start_with_mode.html">start_with_mode</a></span><span class="op">(</span>mode_size <span class="op">=</span> <span class="fl">7</span>, degree <span class="op">=</span> <span class="va">degree</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>                  <span class="fu"><a href="../reference/add_roles.html">add_roles</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>                  <span class="fu"><a href="../reference/as_12_TET.html">as_12_TET</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>                  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/start_with_mode.html">start_with_mode</a></span><span class="op">(</span>mode_size <span class="op">=</span> <span class="fl">7</span>, degree <span class="op">=</span> <span class="va">degree</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>           <span class="fu"><a href="../reference/add_roles.html">add_roles</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>           <span class="fu"><a href="../reference/as_12_TET.html">as_12_TET</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>           <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Pivot wider with roles:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="va">demo</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">idx</span>, values_from <span class="op">=</span> <span class="va">role</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"degree"</span>, <span class="st">"name"</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">unnest</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>idx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">idx</span>, values_from <span class="op">=</span> <span class="va">role</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="st">"degree"</span>, <span class="st">"name"</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">out</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 14</span></span></span>
@@ -138,7 +138,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      6 aeol… P1    <span style="color: #BB0000;">NA</span>    M2    m3    <span style="color: #BB0000;">NA</span>    P4    <span style="color: #BB0000;">NA</span>    P5    m6    <span style="color: #BB0000;">NA</span>    m7   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>      7 locr… P1    m2    <span style="color: #BB0000;">NA</span>    m3    <span style="color: #BB0000;">NA</span>    P4    d5    <span style="color: #BB0000;">NA</span>    m6    <span style="color: #BB0000;">NA</span>    m7   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: `11` &lt;chr&gt;</span></span></span></code></pre></div>
-<p>Or order modes by builiding order:</p>
+<p>Or order modes by building order:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="op">(</span>degree <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">3</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">out</span>, by <span class="op">=</span> <span class="st">"degree"</span><span class="op">)</span></span>
@@ -153,20 +153,21 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      3 phry… P1    m2    <span style="color: #BB0000;">NA</span>    m3    <span style="color: #BB0000;">NA</span>    P4    <span style="color: #BB0000;">NA</span>    P5    m6    <span style="color: #BB0000;">NA</span>    m7   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>      7 locr… P1    m2    <span style="color: #BB0000;">NA</span>    m3    <span style="color: #BB0000;">NA</span>    P4    d5    <span style="color: #BB0000;">NA</span>    m6    <span style="color: #BB0000;">NA</span>    m7   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more variable: `11` &lt;chr&gt;</span></span></span></code></pre></div>
-<p>To show how this simply aligns in some appropriate coordinates:</p>
+<p>To show how this simply aligns in some appropriate coordinates, we
+just catch results before transforming in 12-TET:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">demo2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_mode.html">get_mode</a></span><span class="op">(</span>mode_size <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="va">idx</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html" class="external-link">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/start_with_mode.html">start_with_mode</a></span><span class="op">(</span>mode_size <span class="op">=</span> <span class="fl">7</span>, degree <span class="op">=</span> <span class="va">degree</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>                  <span class="fu"><a href="../reference/add_roles.html">add_roles</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>                  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">rename</span><span class="op">(</span>rank <span class="op">=</span> <span class="va">idx</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/start_with_mode.html">start_with_mode</a></span><span class="op">(</span>mode_size <span class="op">=</span> <span class="fl">7</span>, degree <span class="op">=</span> <span class="va">degree</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>              <span class="fu"><a href="../reference/add_roles.html">add_roles</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="va">demo2</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">idx</span>, values_from <span class="op">=</span> <span class="va">role</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"degree"</span>, <span class="st">"name"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">unnest</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>idx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">idx</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">idx</span>, values_from <span class="op">=</span> <span class="va">role</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="st">"degree"</span>, <span class="st">"name"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">out</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 15</span></span></span>
@@ -187,20 +188,29 @@
 <div class="section level3">
 <h3 id="direct-slicing">Direct slicing<a class="anchor" aria-label="anchor" href="#direct-slicing"></a>
 </h3>
+<p>We start with values of an index:</p>
+<ul>
+<li>sequence of 7 consecutive values on the circle of fifths.</li>
+<li>starting on -1 for the ionian mode</li>
+<li>here we directly set the index to a 12-TET</li>
+<li>the important parameter is to set the unit so that it represents
+fifths for the specified period (<code>7</code>; on can use the helper
+<code>fifth(period = 12L)</code>)</li>
+</ul>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ionian</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">1</span></span>
-<span><span class="fu"><a href="../reference/start_with_some_values.html">start_with_some_values</a></span><span class="op">(</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span> <span class="op">+</span> <span class="va">ionian</span>, period <span class="op">=</span> <span class="fl">31L</span>, unit <span class="op">=</span> <span class="fl">18L</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="fu"><a href="../reference/start_with_some_values.html">start_with_some_values</a></span><span class="op">(</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span> <span class="op">+</span> <span class="va">ionian</span>, period <span class="op">=</span> <span class="fl">12L</span>, unit <span class="op">=</span> <span class="fl">7L</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_roles.html">add_roles</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 2</span></span></span>
-<span><span class="co">#&gt;          idx role </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;i&lt;18/31&gt;&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         -1 P4   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        ~ 0 P1   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          1 P5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          2 M2   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>          3 M6   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>          4 M3   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>          5 M7</span></span></code></pre></div>
+<span><span class="co">#&gt;         idx role </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;i&lt;7/12&gt;&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        -1 P4   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       ~ 0 P1   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         1 P5   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         2 M2   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         3 M6   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         4 M3   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>         5 M7</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="sequential-building">Sequential building<a class="anchor" aria-label="anchor" href="#sequential-building"></a>
@@ -235,40 +245,10 @@ alterations.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[6]]</span></span>
 <span><span class="co">#&gt; [1] "A4" "M7" "M3" "M6" "M2" "P5"</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Change of attributes</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Attributes of the index were augmented to account for possible richer</span></span>
-<span><span class="co">#&gt;   context.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #00BB00;">period</span> is now <span style="color: #0000BB;">31</span> and <span style="color: #00BB00;">unit</span> <span style="color: #0000BB;">18</span>.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Change of attributes</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Attributes of the index were augmented to account for possible richer</span></span>
-<span><span class="co">#&gt;   context.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #00BB00;">period</span> is now <span style="color: #0000BB;">31</span> and <span style="color: #00BB00;">unit</span> <span style="color: #0000BB;">18</span>.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Change of attributes</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Attributes of the index were augmented to account for possible richer</span></span>
-<span><span class="co">#&gt;   context.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #00BB00;">period</span> is now <span style="color: #0000BB;">31</span> and <span style="color: #00BB00;">unit</span> <span style="color: #0000BB;">18</span>.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Change of attributes</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Attributes of the index were augmented to account for possible richer</span></span>
-<span><span class="co">#&gt;   context.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #00BB00;">period</span> is now <span style="color: #0000BB;">31</span> and <span style="color: #00BB00;">unit</span> <span style="color: #0000BB;">18</span>.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Change of attributes</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Attributes of the index were augmented to account for possible richer</span></span>
-<span><span class="co">#&gt;   context.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #00BB00;">period</span> is now <span style="color: #0000BB;">31</span> and <span style="color: #00BB00;">unit</span> <span style="color: #0000BB;">18</span>.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Change of attributes</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Attributes of the index were augmented to account for possible richer</span></span>
-<span><span class="co">#&gt;   context.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #00BB00;">period</span> is now <span style="color: #0000BB;">31</span> and <span style="color: #00BB00;">unit</span> <span style="color: #0000BB;">18</span>.</span></span></code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">degree</span> <span class="op">&lt;-</span> <span class="va">lydian</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">role</span> <span class="op">!=</span> <span class="st">"A4"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">pull</span><span class="op">(</span><span class="st">"role"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">str_sub</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>degree <span class="op">=</span> <span class="va">degree</span>,</span>
+<span>              data <span class="op">=</span> <span class="va">xx</span> <span class="op">|&gt;</span> <span class="fu">map</span><span class="op">(</span><span class="op">~</span><span class="va">lydian</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/shift_role.html">diminish</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/as_12_TET.html">as_12_TET</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">degree</span> <span class="op">==</span> <span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">pull</span><span class="op">(</span><span class="st">"data"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
@@ -297,10 +277,10 @@ walk over it by steps of 2.</p>
 <span></span>
 <span><span class="co"># New index 2/7</span></span>
 <span><span class="va">demo</span> <span class="op">|&gt;</span>  </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>idx7 <span class="op">=</span> <span class="fu"><a href="../reference/index.html">index</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, period <span class="op">=</span> <span class="fl">7L</span>, unit <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>idx7 <span class="op">=</span> <span class="fu"><a href="../reference/index.html">index</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, period <span class="op">=</span> <span class="fl">7L</span>, unit <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/xtibble.html">xtibble</a></span><span class="op">(</span>idx_name <span class="op">=</span> <span class="st">"idx7"</span>, lock <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/set_unit.html">set_unit</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">idx7</span><span class="op">)</span>                                               </span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">idx7</span><span class="op">)</span>                                               </span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 3</span></span></span>
 <span><span class="co">#&gt;         idx role      idx7</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;i&lt;1/12&gt;&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;i&lt;2/7&gt;&gt;</span></span></span>
@@ -350,8 +330,7 @@ degree of the melodic minor scale:</p>
 <span>    <span class="fu">arrange</span><span class="op">(</span><span class="va">idx7</span><span class="op">)</span>  </span>
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span><span class="st">"melodic_minor"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/set_lock.html">set_lock</a></span><span class="op">(</span>to <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> <span style="color: #0000BB;">&lt;m_xtibble&gt;</span> is now unlocked. Stay focused!</span></span>
+<code class="sourceCode R"><span><span class="va">mm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span><span class="st">"melodic_minor"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/set_lock.html">set_lock</a></span><span class="op">(</span>to <span class="op">=</span> <span class="cn">FALSE</span>, silently <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">demo</span> <span class="op">&lt;-</span> <span class="va">mm</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">degree</span><span class="op">)</span> <span class="op">|&gt;</span></span>
