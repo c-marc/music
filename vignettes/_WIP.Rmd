@@ -143,3 +143,34 @@ start_with_mode() |>
   dplyr::mutate(z = funky(as.integer(idx)))
 ```
 
+
+## Harmonize
+
+
+
+```{r}
+start_with_mode(degree=7) |> add_roles() |> as_12_TET() |> slice(c(1,3,5))
+```
+
+```{r}
+1:7 |> map_dfr(~start_with_mode(degree=.x) |> 
+                 add_roles() |> 
+                 as_12_TET() |> 
+                 slice(c(1,3,5,7)) |>
+                 mutate(d = c(1,3,5,7)) |>
+                 pivot_wider(-idx,names_from = d, values_from = role))
+```
+
+```{r}
+start_with_some_roles(c("P1","M3","P5")) |>
+  set_lock(F)|>
+  set_zero("M3", from = "role") |>
+  add_roles()
+```
+
+```{r}
+start_with_some_roles(c("P1","P4","P5")) |>
+  set_lock(F) |>
+  set_zero("P5", from = "role") |>
+  add_roles()
+```
