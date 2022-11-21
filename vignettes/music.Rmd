@@ -65,8 +65,8 @@ Note that this is still the same chord (with the same role).
 
 Someone who's unfamiliar with chords and intervals might wonder what kind of "A" chord that could also be. The same 2 lines pipe as above could be run. Here we demonstrate how to go on from the previous result, after already made transformations. This requires to:
 
-- unlock the `xtibble` object to use `set_zero()` and `set_unit_*()` on our index;
 - transform back to an index ordered as fifths;
+- unlock the `xtibble` object to use `set_zero()` on our index;
 - set zero on "P5" from the "role" column (we can also equivalently set zero on "A" from "note");
 - save the roles in another column (before adding new roles);
 - add roles based on that new zero reference.
@@ -77,9 +77,9 @@ start_with_some_notes(c("C", "F", "A"), root_note = "D") |>
   as_12_TET() |>
   set_first(rank = 2) |>
   # new steps
-  set_lock(to = FALSE, silently = TRUE) |>
   set_unit_to_fifths() |>
-  set_zero("P5", from = "role_x") |> 
+  set_lock(to = FALSE, silently = TRUE) |>
+  set_zero("P5", from = "role") |> 
   rename("role_x" = "role") |>
   add_roles() |>
   as_12_TET()
